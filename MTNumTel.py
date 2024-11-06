@@ -5,7 +5,7 @@ from datetime import datetime
 
 class MaquinaTuring:
     def __init__(self):
-        self.estados = {'q0', 'q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10'}
+        self.estados = {'q0', 'q1', 'q2a', 'q2b', 'q2c', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10'}
         self.estado_inicial = 'q0'
         self.estados_finales = {'q10'}
         self.simbolos = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' '}
@@ -14,8 +14,16 @@ class MaquinaTuring:
         
     def _inicializar_transiciones(self):
         self.transiciones[('q0', '9')] = ('q1', '9', 'R')
+        self.transiciones[('q1', '1')] = ('q2b', '1', 'R')
+        self.transiciones[('q1', '3')] = ('q2b', '3', 'R')
         self.transiciones[('q1', '6')] = ('q2a', '6', 'R')
         self.transiciones[('q1', '9')] = ('q2c', '9', 'R')
+        self.transiciones[('q2b', '2')] = ('q3', '2', 'R')
+        self.transiciones[('q2b', '4')] = ('q3', '4', 'R')
+        self.transiciones[('q2b', '6')] = ('q3', '6', 'R')
+        self.transiciones[('q2b', '7')] = ('q3', '7', 'R')
+        self.transiciones[('q2b', '8')] = ('q3', '8', 'R')
+        self.transiciones[('q2b', '9')] = ('q3', '9', 'R')
         for digito in '123456789':
             self.transiciones[('q2a', digito)] = ('q3', digito, 'R')
         self.transiciones[('q2c', '2')] = ('q3', '2', 'R')
@@ -30,13 +38,23 @@ class MaquinaTuring:
             self.transiciones[('q9', digito)] = ('q10', digito, 'R')
 
     def ejecutar(self, entrada):
+        entrada = entrada.replace(" ", "")
+        
         if len(entrada) != 10:
             return False
 
         if not entrada.isdigit():
             return False
 
-        if not (entrada.startswith('96') or entrada.startswith('994') or entrada.startswith('992')):
+        if not (entrada.startswith('96') or 
+                entrada.startswith('994') or 
+                entrada.startswith('992') or 
+                entrada.startswith('916') or 
+                entrada.startswith('917') or 
+                entrada.startswith('918') or 
+                entrada.startswith('919') or 
+                entrada.startswith('932') or 
+                entrada.startswith('934')):
             return False
 
         if entrada.startswith('96') and entrada[2] == '0':
